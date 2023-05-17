@@ -1,6 +1,8 @@
-const router = require("express").Router();
-const register = require("../controllers/freelancer.auth");
+import express from "express";
+import { register } from "../controllers/freelancer.auth.js";
+
+const router = express.Router();
 
 router.post("/register", register);
 
-module.exports = router;
+export default router;

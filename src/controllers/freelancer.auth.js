@@ -1,6 +1,6 @@
-const Freelancer = require("../models/freelancer.model");
+import Freelancer from "../models/freelancer.model.js";
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
@@ -18,4 +18,3 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = register;

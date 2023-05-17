@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const CryptoJS = require("crypto-js");
+import mongoose from "mongoose";
+import validator from "validator";
+import CryptoJS from "crypto-js";
 const FreelancerSchema = new mongoose.Schema(
   {
     email: {
@@ -52,4 +52,4 @@ FreelancerSchema.pre("save", async function (next) {
   next();
 });
 const Freelancer = mongoose.model("freelancer", FreelancerSchema);
-module.exports = Freelancer;
+export default Freelancer;
