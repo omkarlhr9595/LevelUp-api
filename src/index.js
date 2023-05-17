@@ -1,7 +1,5 @@
 const express = require("express");
-
-//* IMPORTING ROUTES
-const clientRoute = require("./routes/client.route");
+const cors = require("cors");
 
 //* DB CONNECTION
 require("./db/connection");
@@ -12,9 +10,9 @@ const port = process.env.PORT || 3000;
 
 //* MIDDLEWARES
 app.use(express.json());
+app.use(cors());
 
-//* ROUTES
-app.use("/api/client", clientRoute);
+
 
 //* APP LOG
 app.listen(port);
