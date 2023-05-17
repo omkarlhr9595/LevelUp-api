@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const freelancerRoute = require("./routes/freelancer.route");
 
 //* DB CONNECTION
 require("./db/connection");
@@ -8,9 +9,19 @@ require("./db/connection");
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 //* MIDDLEWARES
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+
+//* ROUTES
+app.use("/freelancer", freelancerRoute);
+
+app.post("/test", (req, res) => {
+  console.log(req.body);
+  res.json(req.body);
+});
 
 
 
