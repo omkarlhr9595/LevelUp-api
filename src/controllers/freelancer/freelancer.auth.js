@@ -1,6 +1,7 @@
-import Freelancer from "../models/freelancer.model.js";
+import Freelancer from "../../models/freelancer/freelancer.model.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
+import FreelancerInformation from "../../models/freelancer/information.model.js";
 
 export const register = async (req, res) => {
   try {
@@ -13,26 +14,34 @@ export const register = async (req, res) => {
       state,
     });
 
-    await newFreelancer.save();
+    const user = await newFreelancer.save();
+    const information = new FreelancerInformation({
+      user_id: user._id.toString(),
+      headline: "headline",
+      skills: [],
+      scope: "scope",
+      budget: 0,
+    });
+    await information.save();
     res.status(201).json({ message: "Freelancer registered" });
   } catch (e) {
-    res.status(500).json({ message: "User Already Exists" });
+    res.status(500).json({ message: "User Already Exists", e: e });
   }
 };
 
 export const login = async (req, res) => {
   try {
-    const { email, client_password } = req.body;
+    const { email, freelancer_password } = req.body;
     const user = await Freelancer.findOne({ email: email });
     if (!user) return res.status(401).json({ message: "User does not exist" });
 
-    if (!isPasswordCorrect(client_password, user.password))
+    if (!isPasswordCorrect(freelancer_password, user.password))
       return res.status(401).json({ message: "Wrong Password" });
 
     const accessToken = jwt.sign(
       {
         id: user._id,
-        isAdmin: user.isAdmin,
+        freelancer: true,
       },
       process.env.JWT_SECURITY_KEY,
       { expiresIn: "3d" }

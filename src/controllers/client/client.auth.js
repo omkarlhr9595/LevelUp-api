@@ -1,4 +1,4 @@
-import Client from "../models/client.model.js";
+import Client from "../../models/client/client.model.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 
@@ -34,7 +34,7 @@ export const login = async (req, res) => {
     const accessToken = jwt.sign(
       {
         id: user._id,
-        isAdmin: user.isAdmin,
+        client: true,
       },
       process.env.JWT_SECURITY_KEY,
       { expiresIn: "3d" }
