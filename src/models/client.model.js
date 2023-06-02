@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import CryptoJS from "crypto-js";
-const FreelancerSchema = new mongoose.Schema(
+//import isEmail from "validator/lib/isEmail";
+
+const ClientSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -11,23 +13,27 @@ const FreelancerSchema = new mongoose.Schema(
       },
       unique: true,
     },
+
     firstName: {
       type: String,
       required: true,
       min: 2,
       max: 50,
       trim: true,
+
       validate(value) {
         if (!validator.isAlpha(value.split(" ").join("")))
           throw new Error("Not a name");
       },
     },
+
     lastName: {
       type: String,
       required: true,
       min: 2,
       max: 50,
       trim: true,
+
       validate(value) {
         if (!validator.isAlpha(value.split(" ").join("")))
           throw new Error("Not a name");
@@ -38,22 +44,21 @@ const FreelancerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    state: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
-FreelancerSchema.pre("save", async function (next) {
-  const freelancer = this;
-  if (freelancer.isModified("password"))
-    freelancer.password = CryptoJS.AES.encrypt(
-      freelancer.password,
+ClientSchema.pre("save", async function (next) {
+  const client = this;
+
+  if (client.isModified("password"))
+    client.password = CryptoJS.AES.encrypt(
+      client.password,
       process.env.PASS_SECURITY_KEY
     );
+
   next();
 });
-const Freelancer = mongoose.model("freelancer", FreelancerSchema);
-export default Freelancer;
+
+const Client = mongoose.model("client", ClientSchema);
+export default Client;

@@ -1,29 +1,31 @@
-import Freelancer from "../models/freelancer.model.js";
+import Client from "../models/client.model.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, state } = req.body;
-    const newFreelancer = new Freelancer({
+    const { firstName, lastName, email, password } = req.body;
+
+    const newClient = new Client({
       firstName,
       lastName,
       email,
       password,
-      state,
     });
 
-    await newFreelancer.save();
-    res.status(201).json({ message: "Freelancer registered" });
+    await newClient.save();
+    res.status(201).json({ message: "Client Registered" });
   } catch (e) {
-    res.status(500).json({ message: "User Already Exists" });
+    res.status(500).json({ message: e.message });
   }
 };
 
 export const login = async (req, res) => {
   try {
     const { email, client_password } = req.body;
-    const user = await Freelancer.findOne({ email: email });
+
+    const user = await Client.findOne({ email: email });
+
     if (!user) return res.status(401).json({ message: "User does not exist" });
 
     if (!isPasswordCorrect(client_password, user.password))
@@ -40,8 +42,8 @@ export const login = async (req, res) => {
 
     const { password, ...userdata } = user._doc;
     res.status(200).json({ userdata, accessToken });
-  } catch (error) {
-    res.status(500).json({ message: "Internal error" });
+  } catch (e) {
+    res.status(500).json({ message: "Internal Error" });
   }
 };
 

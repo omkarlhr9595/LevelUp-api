@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
+import morgan from "morgan";
 import freelancerRoute from "./routes/freelancer.route.js";
+import clientRoute from "./routes/client.route.js";
 
 //* DB CONNECTION
 import "./db/connection.js";
@@ -12,9 +14,11 @@ const port = process.env.PORT || 3000;
 //* MIDDLEWARES
 app.use(express.json());
 app.use(cors());
+app.use(morgan("combined"));
 
 //* ROUTES
 app.use("/freelancer", freelancerRoute);
+app.use("/client", clientRoute);
 
 app.post("/test", (req, res) => {
   console.log(req.body);
