@@ -33,7 +33,6 @@ const FreelancerSchema = new mongoose.Schema(
           throw new Error("Not a name");
       },
     },
-
     password: {
       type: String,
       required: true,

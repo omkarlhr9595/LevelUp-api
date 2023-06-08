@@ -21,6 +21,7 @@ const FreelancerInformationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  profilePhoto: String,
 });
 
 const FreelancerInformation = mongoose.model(

@@ -15,6 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 app.use(morgan("combined"));
+app.use("/profilePhotos", express.static("public/uploads"));
 
 //* ROUTES
 app.use("/freelancer", freelancerRoute);

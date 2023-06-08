@@ -1,13 +1,18 @@
 import FreelancerInformation from "../../models/freelancer/information.model.js";
-
+import mongoose from "mongoose";
 // PATCH /freelancer/:id
 const updateFreelancerInformation = async (req, res) => {
   try {
-    const { id } = req.user_id;
     const { headline, skills, scope, budget } = req.body;
 
+    const id = req.user_id;
+    console.log(req.user_id);
+    console.log(id);
+
     // Find the freelancer information by the provided id
-    const freelancerInfo = await FreelancerInformation.findById(id);
+    const freelancerInfo = await FreelancerInformation.findOne({
+      user_id: id,
+    });
 
     if (!freelancerInfo) {
       return res
@@ -29,6 +34,9 @@ const updateFreelancerInformation = async (req, res) => {
       freelancerInfo.budget = budget;
     }
 
+    if (req.file.filename) {
+      freelancerInfo.profilePhoto = req.file.filename;
+    }
     // Save the updated freelancer information
     await freelancerInfo.save();
 

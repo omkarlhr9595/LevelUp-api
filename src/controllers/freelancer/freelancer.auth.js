@@ -21,6 +21,7 @@ export const register = async (req, res) => {
       skills: [],
       scope: "scope",
       budget: 0,
+      profilePhoto: "profilePhoto",
     });
     await information.save();
     res.status(201).json({ message: "Freelancer registered" });
@@ -47,8 +48,18 @@ export const login = async (req, res) => {
       { expiresIn: "3d" }
     );
 
+    const userInformation = await FreelancerInformation.findOne({
+      user_id: user._id,
+    });
+
+    const information = userInformation
+      ? userInformation._doc.headline == "headline"
+        ? false
+        : userInformation._doc
+      : null;
+
     const { password, ...userdata } = user._doc;
-    res.status(200).json({ userdata, accessToken });
+    res.status(200).json({ userdata, accessToken, information });
   } catch (error) {
     res.status(500).json({ message: "Internal error" });
   }

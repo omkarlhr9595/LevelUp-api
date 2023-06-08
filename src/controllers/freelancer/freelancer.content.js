@@ -1,13 +1,19 @@
 import Content from "../../models/freelancer/content.modal.js";
 
+export const getPost = async (req, res) => {
+  const data = await Content.find();
+  res.json({ data });
+};
+
 export const contentPost = async (req, res) => {
-  user_id = req.user_id;
   try {
-    const { user_id, content } = req.body;
+    const { user_id, content, title } = req.body;
 
     const newContent = new Content({
       user_id,
+      title,
       content,
+      image: req.file.filename,
     });
 
     await newContent.save();
