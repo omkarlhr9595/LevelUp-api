@@ -4,6 +4,7 @@ import { freelancerAuthMiddleware } from "../middlewares/freelancerAuthToken.js"
 import {
   contentPost,
   getPost,
+  likePost,
 } from "../controllers/freelancer/freelancer.content.js";
 import { updateFreelancerInformation } from "../controllers/freelancer/freelancer.information.js";
 import { upload } from "../middlewares/upload.js";
@@ -24,5 +25,6 @@ router.post(
   contentPost
 );
 router.get("/content", getPost);
+router.patch("/content/:id/like", freelancerAuthMiddleware, likePost);
 
 export default router;
