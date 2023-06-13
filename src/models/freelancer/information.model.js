@@ -21,6 +21,10 @@ const FreelancerInformationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  whatsappNo: {
+    type: Number,
+    required: true,
+  },
   profilePhoto: String,
 });
 

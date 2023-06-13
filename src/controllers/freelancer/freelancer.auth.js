@@ -22,6 +22,7 @@ export const register = async (req, res) => {
       scope: "scope",
       budget: 0,
       profilePhoto: "profilePhoto",
+      whatsappNo: 0,
     });
     await information.save();
     res.status(201).json({ message: "Freelancer registered" });

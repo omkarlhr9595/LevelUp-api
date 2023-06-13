@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 // PATCH /freelancer/:id
 const updateFreelancerInformation = async (req, res) => {
   try {
-    const { headline, skills, scope, budget } = req.body;
+    const { headline, skills, scope, budget, whatsappNo } = req.body;
 
     const id = req.user_id;
     console.log(req.user_id);
@@ -32,6 +32,10 @@ const updateFreelancerInformation = async (req, res) => {
     }
     if (budget) {
       freelancerInfo.budget = budget;
+    }
+
+    if (whatsappNo) {
+      freelancerInfo.whatsappNo = whatsappNo;
     }
 
     if (req.file.filename) {
