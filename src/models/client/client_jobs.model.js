@@ -1,28 +1,36 @@
 import mongoose from "mongoose";
 
+const ClientJobSchema = new mongoose.Schema({
+  user_id: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
 
-const CLientJobSchema = new mongoose.Schema({
+  description: {
+    type: String,
+    required: true,
+  },
 
-    title: {
-        type: String,
-        required: true,
-    },
+  start_date: {
+    type: Date,
+  },
+  skills: {
+    type: [String],
+    required: true,
+  },
+  budget: {
+    type: Number,
+    required: true,
+  },
+  applicant: {
+    type: Map,
+    of: Boolean,
+  },
+});
 
-    description: {
-        type: String,
-        required: true,
-    },
-
-    start_date: {
-        type: Date,
-    },
-
-    skills: {
-        type: String,
-        required: true,
-    }
-
-})
-
-const Job = mongoose.model("job", CLientJobSchema);
+const Job = mongoose.model("jobs", ClientJobSchema);
 export default Job;
