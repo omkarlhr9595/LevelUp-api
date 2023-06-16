@@ -21,6 +21,10 @@ const ContentSchema = new mongoose.Schema(
       type: Map,
       of: Boolean,
     },
+    whatsappNo: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

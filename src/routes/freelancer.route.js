@@ -6,7 +6,11 @@ import {
   getPost,
   likePost,
 } from "../controllers/freelancer/freelancer.content.js";
-import { updateFreelancerInformation } from "../controllers/freelancer/freelancer.information.js";
+import {
+  getFreelancerData,
+  getFreelancerInformation,
+  updateFreelancerInformation,
+} from "../controllers/freelancer/freelancer.information.js";
 import { upload } from "../middlewares/upload.js";
 import { applyJob, getJob } from "../controllers/freelancer/freelancer.jobs.js";
 const router = express.Router();
@@ -19,6 +23,8 @@ router.patch(
   upload.single("profilePhoto"),
   updateFreelancerInformation
 );
+router.get("/information/:userId", getFreelancerInformation);
+router.get("/data/:userId", getFreelancerData);
 router.post(
   "/content",
   freelancerAuthMiddleware,
@@ -27,7 +33,7 @@ router.post(
 );
 router.get("/content", getPost);
 router.patch("/content/:id/like", freelancerAuthMiddleware, likePost);
-router.get("/jobs", freelancerAuthMiddleware, getJob);
+router.get("/jobs", getJob);
 router.patch("/job/:id/apply", freelancerAuthMiddleware, applyJob);
 
 export default router;

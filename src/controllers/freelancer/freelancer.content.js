@@ -7,7 +7,7 @@ export const getPost = async (req, res) => {
 
 export const contentPost = async (req, res) => {
   try {
-    const { user_id, content, title } = req.body;
+    const { user_id, content, title, whatsappNo } = req.body;
 
     const newContent = new Content({
       user_id,
@@ -15,6 +15,7 @@ export const contentPost = async (req, res) => {
       content,
       image: req.file.filename,
       likes: {},
+      whatsappNo,
     });
 
     await newContent.save();

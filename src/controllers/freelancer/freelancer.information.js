@@ -1,5 +1,60 @@
+import Freelancer from "../../models/freelancer/freelancer.model.js";
 import FreelancerInformation from "../../models/freelancer/information.model.js";
-import mongoose from "mongoose";
+
+export const getFreelancerData = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find the freelancer information by the provided user_id
+    const freelancerInfo = await Freelancer.findOne({
+      _id: userId,
+    });
+
+    if (!freelancerInfo) {
+      return res
+        .status(404)
+        .json({ error: "Freelancer information not found" });
+    }
+
+    res.status(200).json({
+      message: "Freelancer information retrieved successfully",
+      data: freelancerInfo,
+    });
+  } catch (error) {
+    console.error("Error retrieving freelancer information:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to retrieve freelancer information" });
+  }
+};
+
+export const getFreelancerInformation = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find the freelancer information by the provided user_id
+    const freelancerInfo = await FreelancerInformation.findOne({
+      user_id: userId,
+    });
+
+    if (!freelancerInfo) {
+      return res
+        .status(404)
+        .json({ error: "Freelancer information not found" });
+    }
+
+    res.status(200).json({
+      message: "Freelancer information retrieved successfully",
+      data: freelancerInfo,
+    });
+  } catch (error) {
+    console.error("Error retrieving freelancer information:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to retrieve freelancer information" });
+  }
+};
+
 // PATCH /freelancer/:id
 const updateFreelancerInformation = async (req, res) => {
   try {
