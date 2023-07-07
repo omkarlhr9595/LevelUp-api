@@ -60,3 +60,35 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const getJobCount = async (req, res) => {
+  try {
+    const count = await Job.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    console.error("Error getting job count:", error);
+    res.status(500).json({ error: "Failed to get job count" });
+  }
+};
+export const getTotalApplications = async (req, res) => {
+  try {
+    const totalApplication = await Job.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalApplication: {
+            $sum: { $size: { $objectToArray: "$applicant" } },
+          },
+        },
+      },
+    ]);
+
+    if (totalApplication.length === 0) {
+      return res.json({ totalApplication: 0 });
+    }
+
+    res.json({ count: totalApplication[0].totalApplication });
+  } catch (error) {
+    console.error("Error counting total application:", error);
+    res.status(500).json({ error: "Failed to count total application" });
+  }
+};

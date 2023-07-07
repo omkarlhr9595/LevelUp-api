@@ -58,3 +58,13 @@ const isPasswordCorrect = (password, dbPassword) => {
   if (originaldbPassword != password) return false;
   else return true;
 };
+
+export const getClientCount = async (req, res) => {
+  try {
+    const count = await Client.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    console.error("Error getting client count:", error);
+    res.status(500).json({ error: "Failed to get client count" });
+  }
+};

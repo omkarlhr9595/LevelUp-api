@@ -77,3 +77,13 @@ const isPasswordCorrect = (password, dbPassword) => {
   if (originaldbPassword != password) return false;
   else return true;
 };
+
+export const getFreelancerCount = async (req, res) => {
+  try {
+    const count = await Freelancer.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    console.error("Error getting freelancer count:", error);
+    res.status(500).json({ error: "Failed to get freelancer count" });
+  }
+};

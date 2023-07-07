@@ -52,3 +52,33 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const getContentCount = async (req, res) => {
+  try {
+    const count = await Content.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    console.error("Error getting content count:", error);
+    res.status(500).json({ error: "Failed to get content count" });
+  }
+};
+export const getTotalLikes = async (req, res) => {
+  try {
+    const totalLikes = await Content.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalLikes: { $sum: { $size: { $objectToArray: "$likes" } } },
+        },
+      },
+    ]);
+
+    if (totalLikes.length === 0) {
+      return res.json({ totalLikes: 0 });
+    }
+
+    res.json({ count: totalLikes[0].totalLikes });
+  } catch (error) {
+    console.error("Error counting total likes:", error);
+    res.status(500).json({ error: "Failed to count total likes" });
+  }
+};
